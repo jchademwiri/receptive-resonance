@@ -2,13 +2,11 @@
 // Footer.astro
 ---
 
-<footer
-  class='w-full border-t border-border bg-background backdrop-blur-md py-6 mt-12'
->
+<footer class='w-full border-t border-border bg-background py-6'>
   <div
     class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4'
   >
-    <div class='text-gray-600 dark:text-gray-300 text-sm'>
+    <div class='text-gray-500 text-sm'>
       © {new Date().getFullYear()} Portfolio. All rights reserved.
     </div>
     <div class='flex gap-4'>
@@ -16,7 +14,7 @@
         href='https://github.com/'
         target='_blank'
         rel='noopener'
-        class='hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200'
+        class='hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 text-gray-600'
         aria-label='GitHub'
       >
         <svg
@@ -31,7 +29,7 @@
       </a>
       <a
         href='mailto:hello@email.com'
-        class='hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200'
+        class='hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 text-gray-600'
         aria-label='Email'
       >
         <svg
