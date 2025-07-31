@@ -1,0 +1,223 @@
+---
+// Navigation.astro
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+
+const navItems = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Projects", href: "/projects" },
+  { name: "Contact", href: "/contact" },
+];
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo/Brand -->
+      <div class="flex-shrink-0">
+        <a href="/" class="text-2xl font-bold text-gray-900 hover:text-indigo-600 transition-colors duration-200">
+          Portfolio
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-8">
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                currentPath === item.href
+                  ? "text-indigo-600 bg-indigo-50"
+                  : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+              }`}
+            >
+              {item.name}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button
+          type="button"
+          class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <!-- Hamburger icon -->
+          <svg class="hamburger-icon block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close icon -->
+          <svg class="close-icon hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu md:hidden hidden">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 backdrop-blur-md border-t border-gray-200/20">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ${
+            currentPath === item.href
+              ? "text-indigo-600 bg-indigo-50"
+              : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+          }`}
+        >
+          {item.name}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Smooth transitions for mobile menu */
+  .mobile-menu {
+    transition: all 0.3s ease-in-out;
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  .mobile-menu.show {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Active nav item indicator */
+  .nav-item-active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: rgb(79 70 229);
+    transform: translateX(-50%);
+    border-radius: 1px;
+  }
+
+  /* Backdrop blur fallback for older browsers */
+  @supports not (backdrop-filter: blur(12px)) {
+    nav {
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+  }
+</style>
+
+<script>
+  // Mobile menu toggle functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const hamburgerIcon = document.querySelector('.hamburger-icon');
+    const closeIcon = document.querySelector('.close-icon');
+
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', function() {
+        const isMenuOpen = mobileMenu.classList.contains('show');
+        
+        if (isMenuOpen) {
+          // Close menu
+          mobileMenu.classList.remove('show');
+          hamburgerIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('hidden');
+          mobileMenuButton.setAttribute('aria-expanded', 'false');
+          
+          // Hide menu after animation completes
+          setTimeout(() => {
+            if (!mobileMenu.classList.contains('show')) {
+              mobileMenu.classList.add('hidden');
+            }
+          }, 300);
+        } else {
+          // Open menu
+          mobileMenu.classList.remove('hidden');
+          // Small delay to ensure display change takes effect before animation
+          requestAnimationFrame(() => {
+            mobileMenu.classList.add('show');
+            hamburgerIcon?.classList.add('hidden');
+            closeIcon?.classList.remove('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', 'true');
+          });
+        }
+      });
+
+      // Close mobile menu when clicking on nav links
+      const mobileNavLinks = mobileMenu.querySelectorAll('a');
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('show');
+          hamburgerIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('hidden');
+          mobileMenuButton.setAttribute('aria-expanded', 'false');
+          
+          setTimeout(() => {
+            if (!mobileMenu.classList.contains('show')) {
+              mobileMenu.classList.add('hidden');
+            }
+          }, 300);
+        });
+      });
+
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', function(event) {
+        const target = event.target as Element;
+        if (!mobileMenuButton.contains(target) && !mobileMenu.contains(target)) {
+          if (mobileMenu.classList.contains('show')) {
+            mobileMenu.classList.remove('show');
+            hamburgerIcon?.classList.remove('hidden');
+            closeIcon?.classList.add('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', 'false');
+            
+            setTimeout(() => {
+              if (!mobileMenu.classList.contains('show')) {
+                mobileMenu.classList.add('hidden');
+              }
+            }, 300);
+          }
+        }
+      });
+    }
+  });
+
+  // Add scroll effect to navigation
+  let lastScrollY = window.scrollY;
+  const nav = document.querySelector('nav');
+
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    
+    if (nav) {
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down - hide nav
+        nav.style.transform = 'translateY(-100%)';
+      } else {
+        // Scrolling up - show nav
+        nav.style.transform = 'translateY(0)';
+      }
+      
+      // Add/remove shadow based on scroll position
+      if (currentScrollY > 20) {
+        nav.classList.add('shadow-sm');
+      } else {
+        nav.classList.remove('shadow-sm');
+      }
+    }
+    
+    lastScrollY = currentScrollY;
+  });
+</script>
