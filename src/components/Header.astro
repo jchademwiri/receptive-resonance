@@ -1,64 +1,96 @@
 ---
+import { ModeToggle } from './ModeToggle';
+
 // Navigation.astro
 interface Props {
   currentPath?: string;
 }
 
-const { currentPath = "/" } = Astro.props;
+const { currentPath = '/' } = Astro.props;
 
 const navItems = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
-  { name: "Projects", href: "/projects" },
-  { name: "Contact", href: "/contact" },
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Projects', href: '/projects' },
+  { name: 'Contact', href: '/contact' },
 ];
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/20">
-<nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/20 dark:border-gray-800/60">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
+<nav
+  class='fixed top-0 left-0 right-0 z-50 border-b border-gray-200/20 dark:border-gray-800/60 bg-white/60 dark:bg-gray-900/40 backdrop-blur-md transition-all duration-300'
+>
+  <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+    <div class='flex justify-between items-center h-16 gap-4'>
       <!-- Logo/Brand -->
-      <div class="flex-shrink-0">
-        <a href="/" class="text-2xl font-bold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+      <div class='flex-shrink-0'>
+        <a
+          href='/'
+          class='text-2xl font-bold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200'
+        >
           Portfolio
         </a>
       </div>
 
       <!-- Desktop Navigation -->
-      <div class="hidden md:block">
-        <div class="ml-10 flex items-baseline space-x-8">
-          {navItems.map((item) => (
-            <a
-              href={item.href}
-              class={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                currentPath === item.href
-                  ? "text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-gray-800"
-                  : "text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-800"
-              }`}
-            >
-              {item.name}
-            </a>
-          ))}
+      <div class='hidden md:flex items-center gap-4 flex-1 justify-end'>
+        <div class='flex items-baseline space-x-8'>
+          {
+            navItems.map((item) => (
+              <a
+                href={item.href}
+                class={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  currentPath === item.href
+                    ? 'text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-gray-800'
+                    : 'text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                }`}
+              >
+                {item.name}
+              </a>
+            ))
+          }
         </div>
+        <ModeToggle client:load />
       </div>
 
-      <!-- Mobile menu button -->
-      <div class="md:hidden">
+      <!-- Mobile menu button and mode toggle -->
+      <div class='md:hidden flex items-center gap-2'>
+        <ModeToggle client:load />
         <button
-          type="button"
-          class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200"
-          aria-controls="mobile-menu"
-          aria-expanded="false"
+          type='button'
+          class='mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200'
+          aria-controls='mobile-menu'
+          aria-expanded='false'
         >
-          <span class="sr-only">Open main menu</span>
+          <span class='sr-only'>Open main menu</span>
           <!-- Hamburger icon -->
-          <svg class="hamburger-icon block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <svg
+            class='hamburger-icon block h-6 w-6'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+            aria-hidden='true'
+          >
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M4 6h16M4 12h16M4 18h16'></path>
           </svg>
           <!-- Close icon -->
-          <svg class="close-icon hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <svg
+            class='close-icon hidden h-6 w-6'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+            aria-hidden='true'
+          >
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M6 18L18 6M6 6l12 12'></path>
           </svg>
         </button>
       </div>
@@ -66,20 +98,24 @@ const navItems = [
   </div>
 
   <!-- Mobile menu -->
-  <div class="mobile-menu md:hidden hidden">
-    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/20 dark:border-gray-800/60">
-      {navItems.map((item) => (
-        <a
-          href={item.href}
-          class={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ${
-            currentPath === item.href
-              ? "text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-gray-800"
-              : "text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-800"
-          }`}
-        >
-          {item.name}
-        </a>
-      ))}
+  <div class='mobile-menu md:hidden hidden'>
+    <div
+      class='px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/20 dark:border-gray-800/60'
+    >
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ${
+              currentPath === item.href
+                ? 'text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-gray-800'
+                : 'text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+            }`}
+          >
+            {item.name}
+          </a>
+        ))
+      }
     </div>
   </div>
 </nav>
@@ -116,41 +152,54 @@ const navItems = [
     nav {
       background-color: rgba(255, 255, 255, 0.95);
     }
-  }
-  nav.dark {
-    background-color: rgba(17, 24, 39, 0.95);
+    nav.dark {
+      background-color: rgba(17, 24, 39, 0.85);
+    }
   }
 
-  /* Dark mode shadow for nav */
+  /* Glassmorphism effect always visible */
+  nav {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.7);
+    transition:
+      background-color 0.3s,
+      backdrop-filter 0.3s;
+  }
+  @media (prefers-color-scheme: dark) {
+    nav {
+      background-color: rgba(17, 24, 39, 0.6);
+    }
+  }
   nav.shadow-sm {
-    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.06);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.06);
   }
   @media (prefers-color-scheme: dark) {
     nav.shadow-sm {
-      box-shadow: 0 1px 4px 0 rgba(0,0,0,0.4);
+      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4);
     }
   }
 </style>
 
 <script>
   // Mobile menu toggle functionality
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const mobileMenuButton = document.querySelector('.mobile-menu-button');
     const mobileMenu = document.querySelector('.mobile-menu');
     const hamburgerIcon = document.querySelector('.hamburger-icon');
     const closeIcon = document.querySelector('.close-icon');
 
     if (mobileMenuButton && mobileMenu) {
-      mobileMenuButton.addEventListener('click', function() {
+      mobileMenuButton.addEventListener('click', function () {
         const isMenuOpen = mobileMenu.classList.contains('show');
-        
+
         if (isMenuOpen) {
           // Close menu
           mobileMenu.classList.remove('show');
           hamburgerIcon?.classList.remove('hidden');
           closeIcon?.classList.add('hidden');
           mobileMenuButton.setAttribute('aria-expanded', 'false');
-          
+
           // Hide menu after animation completes
           setTimeout(() => {
             if (!mobileMenu.classList.contains('show')) {
@@ -172,13 +221,13 @@ const navItems = [
 
       // Close mobile menu when clicking on nav links
       const mobileNavLinks = mobileMenu.querySelectorAll('a');
-      mobileNavLinks.forEach(link => {
+      mobileNavLinks.forEach((link) => {
         link.addEventListener('click', () => {
           mobileMenu.classList.remove('show');
           hamburgerIcon?.classList.remove('hidden');
           closeIcon?.classList.add('hidden');
           mobileMenuButton.setAttribute('aria-expanded', 'false');
-          
+
           setTimeout(() => {
             if (!mobileMenu.classList.contains('show')) {
               mobileMenu.classList.add('hidden');
@@ -188,15 +237,18 @@ const navItems = [
       });
 
       // Close mobile menu when clicking outside
-      document.addEventListener('click', function(event) {
+      document.addEventListener('click', function (event) {
         const target = event.target as Element;
-        if (!mobileMenuButton.contains(target) && !mobileMenu.contains(target)) {
+        if (
+          !mobileMenuButton.contains(target) &&
+          !mobileMenu.contains(target)
+        ) {
           if (mobileMenu.classList.contains('show')) {
             mobileMenu.classList.remove('show');
             hamburgerIcon?.classList.remove('hidden');
             closeIcon?.classList.add('hidden');
             mobileMenuButton.setAttribute('aria-expanded', 'false');
-            
+
             setTimeout(() => {
               if (!mobileMenu.classList.contains('show')) {
                 mobileMenu.classList.add('hidden');
@@ -214,7 +266,7 @@ const navItems = [
 
   window.addEventListener('scroll', () => {
     const currentScrollY = window.scrollY;
-    
+
     if (nav) {
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         // Scrolling down - hide nav
@@ -223,7 +275,7 @@ const navItems = [
         // Scrolling up - show nav
         nav.style.transform = 'translateY(0)';
       }
-      
+
       // Add/remove shadow based on scroll position
       if (currentScrollY > 20) {
         nav.classList.add('shadow-sm');
@@ -231,7 +283,7 @@ const navItems = [
         nav.classList.remove('shadow-sm');
       }
     }
-    
+
     lastScrollY = currentScrollY;
   });
 </script>

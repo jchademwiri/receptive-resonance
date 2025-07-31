@@ -1,6 +1,6 @@
 ---
-import { ModeToggle } from '@/components/ModeToggle';
 import '../styles/global.css';
+import Header from '@/components/Header.astro';
 ---
 
 <!doctype html>
@@ -36,8 +36,10 @@ import '../styles/global.css';
     <title>Astro Basics</title>
   </head>
   <body>
-    <slot />
-    <ModeToggle client:load />
+    <Header currentPath={Astro.url.pathname} />
+    <main class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16'>
+      <slot />
+    </main>
   </body>
 </html>
 
